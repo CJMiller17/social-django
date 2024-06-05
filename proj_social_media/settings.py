@@ -45,8 +45,24 @@ INSTALLED_APPS = [
     'app_social_media'
 ]
 
+CORS_ALLOWED_ORIGINS = ['http://localhost:8080', 'http://localhost:5173']
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
+CORS_ALLOW_HEADERS = [
+    'Content-Type',
+    'Authorization',
+]
+
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware -added to the top of MIDDLEWARE',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,22 +88,6 @@ TEMPLATES = [
             ],
         },
     },
-]
-
-CORS_ALLOWED_ORIGINS = ['http://localhost:8080']
-
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS',
-]
-
-CORS_ALLOW_HEADERS = [
-    'Content-Type',
-    'Authorization',
 ]
 
 WSGI_APPLICATION = 'proj_social_media.wsgi.application'
