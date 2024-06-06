@@ -13,7 +13,11 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ("content",)
     list_filter = ("created", "updated", "profile")
 
+class ImageAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Post, PostAdmin)
+admin.site.register(Image, ImageAdmin)
 
 # Register your models here.

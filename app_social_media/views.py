@@ -58,9 +58,10 @@ def delete_profile(request, pk):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def create_post(request):
+    profile = Profile.objects.get(user = request.user)
     post = Post.objects.create(
         content = request.data["content"],
-        profile = request.user,
+        profile = profile,
         # images =  # How does view handle 1-many inputs? Does profile need to be added?
     )
     serialized_post = PostSerializer(post) # User has to be attached and images as well
@@ -71,7 +72,7 @@ def create_post(request):
 @permission_classes([IsAuthenticated])
 def get_post(request):
     print("Read post", request)
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by("-created")
     serialized_post = PostSerializer(posts, many = True)
     return Response(serialized_post.data)
 

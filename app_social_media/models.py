@@ -4,8 +4,10 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    avatar = models.ImageField(upload_to="image/", null=True, blank=True)
     first_name = models.TextField()
     last_name = models.TextField()
+    title = models.TextField(null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -38,9 +40,6 @@ class Like(models.Model):
         return f"{self.profile.first_name} likes this"
 
 class Image(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="image")
     created = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to="images/")
-
-    def __str__(self):
-        return self.image
