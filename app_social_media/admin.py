@@ -16,8 +16,12 @@ class PostAdmin(admin.ModelAdmin):
 class ImageAdmin(admin.ModelAdmin):
     pass
 
+class LikeAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Image, ImageAdmin)
+admin.site.register(Like, LikeAdmin)
 
 # Register your models here.

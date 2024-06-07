@@ -51,7 +51,7 @@ urlpatterns = [
     path("comment/delete/<int:pk>", delete_comment, name = "delete_comment"),
 
     # LIKES
-    path("like/create/", create_like, name = "create_like"),
+    path("like/create/", toggle_like, name = "toggle_like"),
     path("like/", get_like, name = "get_like"),
     path("like/delete/<int:pk>", delete_like, name = "delete_like"),
     

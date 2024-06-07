@@ -129,33 +129,53 @@ def delete_comment(request, pk):
 ### LIKES ###
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def create_like(request):
+def toggle_like(request):
+    user = request.user.profile
     post_like = "post_id" in request.data
     comment_like = "comment_id" in request.data
 
     if post_like:
         post_id = request.data["post_id"]
         post = get_object_or_404(Post, pk = post_id)
-        like = Like.objects.create(post = post)
-        print("created post like")
+        if user in post.liked.all():
+            post.liked.remove(user)
+            is_liked = False
+        else:
+            post.liked.add(user)
+            is_liked = True
+        post_serializer = PostSerializer(post)
+        serialized_data = post_serializer.data
+        serialized_data["is_liked"] = is_liked
+        return Response(serialized_data)
     elif comment_like:
         comment_id = request.data["comment_id"]
         comment = get_object_or_404(Comment, pk = comment_id)
-        like = Like.objects.create(comment = comment)
-        print("created comment like")
+        if user in comment.liked.all():
+            comment.liked.remove.all()
+            is_liked = False
+        else:
+            comment.liked.add(user)
+            is_liked = True
+        comment_serializer = CommentSerializer(comment)
+        serialized_data = comment_serializer.data
+        serialized_data["is_liked"] = is_liked
+        return Response(serialized_data)
     else:
         return Response(status = status.HTTP_400_BAD_REQUEST)
-    serialized_like = LikeSerializer(like)
-    return Response(serialized_like.data)
-    
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def get_like(request):
+def get_like(request, pk, type):
     print("Read like", request)
-    likes = Like.objects.all()
-    serialized_like = LikeSerializer(likes, many = True)
-    return Response(serialized_like.data)
+    if type == "post":
+        instance = get_object_or_404(Post, pk=pk)
+        serializer = PostSerializer(instance)
+    elif type == "comment":
+        instance = get_object_or_404(Post, pk=pk)
+        serializer = CommentSerializer(instance)
+    else:
+        return "The 'like' GET didn't work"
+    return Response(serializer.data)
 
 @api_view(["DELETE"])
 @permission_classes([IsAuthenticated])
