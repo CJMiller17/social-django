@@ -18,11 +18,14 @@ class ImageSerializer(serializers.ModelSerializer):
     fields = '__all__'
 
 class PostSerializer(serializers.ModelSerializer):
+  # user = request.user
+  # my_profile_id = Profile.objects.get(user = user)
   profile = ProfileSerializer(read_only = True)
   image = ImageSerializer(many=True, read_only=True)
   liked_posts = ProfileSerializer( many=True, read_only=True)
   liked_post_count = serializers.IntegerField(source = "liked.count", read_only=True)
   is_liked = serializers.SerializerMethodField() # Look into this field 
+  # user_profile = serializers.IntegerField()
   
   class Meta:
     model = Post
