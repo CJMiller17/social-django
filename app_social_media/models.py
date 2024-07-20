@@ -17,7 +17,7 @@ class Post(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     content = models.TextField()
     liked = models.ManyToManyField(Profile, blank=True, related_name="post_liked")
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True) 
     updated = models.DateTimeField(auto_now=True)
     
     def liked_posts(self):

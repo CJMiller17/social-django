@@ -72,7 +72,7 @@ def create_post(request):
 @permission_classes([IsAuthenticated])
 def get_post(request):
     print("Read post", request)
-    posts = Post.objects.all().order_by("-created")
+    posts = Post.objects.all().order_by("-created")   ####### ORDER BY
     serialized_post = PostSerializer(posts, many = True)
     return Response(serialized_post.data)
 
