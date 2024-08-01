@@ -57,16 +57,34 @@ def delete_profile(request, pk):
 ### POST ###
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
+# def create_post(request):
+#     profile = Profile.objects.get(user = request.user)
+#     post = Post.objects.create(
+#         content = request.data["content"],
+#         profile = profile,
+#         # images =  # How does view handle 1-many inputs? Does profile need to be added?
+#     )
+#     serialized_post = PostSerializer(post) # User has to be attached and images as well
+#     print("Created post")
+#     return Response(serialized_post.data)
+
 def create_post(request):
-    profile = Profile.objects.get(user = request.user)
-    post = Post.objects.create(
-        content = request.data["content"],
-        profile = profile,
-        # images =  # How does view handle 1-many inputs? Does profile need to be added?
-    )
-    serialized_post = PostSerializer(post) # User has to be attached and images as well
-    print("Created post")
-    return Response(serialized_post.data)
+    try:
+        print("REQUEST: ", request)
+        print("REQUEST DATA: ", request.data)
+        print("REQUEST USER: ", request.user)
+
+        profile = Profile.objects.get(user=request.user)
+        post = Post.objects.create(
+            content=request.data["content"],
+            profile=profile,
+        )
+        serialized_post = PostSerializer(post, context={"request": request})
+        print("Created Post")
+        return Response(serialized_post.data, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        print("Error in create_post: ", str(e))
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])

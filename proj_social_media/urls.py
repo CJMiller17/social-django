@@ -40,7 +40,7 @@ urlpatterns = [
 
     # POSTS
     path("post/create/", create_post, name = "create_post"),
-    path("post/", get_post, name = "get_profile"),
+    path("post/", get_post, name = "get_post"),
     path("post/update/", update_post, name = "update_post"),
     path("post/delete/<int:pk>", delete_post, name = "delete_post"),
 
